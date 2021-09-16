@@ -6,6 +6,7 @@ const validarJWT = require('../middlewares/validarJWT');
 const crearUsuario = async (req, resp) => {
     const { nombre, correo, password } = req.body
     const usuario = new Usuario({ nombre, correo, password })
+    console.log(usuario)
 
     const salt = bcryptjs.genSaltSync();
     usuario.password = bcryptjs.hashSync(password, salt);
@@ -40,7 +41,7 @@ const loginUsuario = async (req, resp) => {
             })
         }
 
-        const token = await generarJWT(usuario.uid, usuario.nombre)
+        const token = await generarJWT(usuario.nombre, usuario._id)
 
         resp.json({
             ok:true,
